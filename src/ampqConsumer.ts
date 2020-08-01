@@ -51,7 +51,7 @@ export class AmpqConsumer {
           break;
         case 'transaction.added':
           transactions = deserializeTransactions(msg.content.toString('utf8'));
-          this.transactionPool.addAll(transactions);
+          this.transactionPool.add(transactions[0]);
           break;
         case 'block.added':
           block = <Block>yaml.load(msg.content.toString('utf8'), {
