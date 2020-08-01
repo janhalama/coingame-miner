@@ -31,22 +31,23 @@ export class Miner {
   public async startMining(): Promise<void> {
     try {
       this.output.success(`${this.config.minerName} started mining...`);
-      this.transactionPool.addAll(await this.apiClient.getTransactionPool());
       await this.amqpConsumer.connect();
       //eslint-disable-next-line no-loops/no-loops
       for (let blockAttempt = 0; ; blockAttempt++) {
+        this.transactionPool.addAll(await this.apiClient.getTransactionPool());
         const blockChain = await this.apiClient.getBlockChain();
         const state = await this.apiClient.getState();
         const latestTransactions = this.transactionPool.getLatestTransactionsUpToMaxFee(state.Fee);
         const timeStamp = new Date(Date.now());
         const currentHashYaml = serializeHashToYaml(<Hash>blockChain[blockChain.length - 1]);
         const requiredDifficulty = state.Difficulty;
-        if (latestTransactions.length === 0) {
-          this.output.error('No transactions in pool!');
-          break;
+        if (latestTransactions.length < 5) {
+          this.output.error('Not enough transaction in pool!', latestTransactions.length);
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          continue;
         }
         const oldestTransactionTimestamp = latestTransactions[latestTransactions.length - 1].ValidTo;
-        this.output.info(`Mining block attempt #${blockAttempt + 1} oldest transaction timestamp${oldestTransactionTimestamp?.toISOString()} new block timeStamp ${timeStamp.toISOString()} id ${latestTransactions[latestTransactions.length - 1].Id}`);
+        this.output.info(`Mining block attempt #${blockAttempt + 1} oldest transaction timestamp${oldestTransactionTimestamp?.toISOString()} new block timeStamp ${timeStamp.toISOString()} transactions count ${latestTransactions.length + 1}`);
         //eslint-disable-next-line no-loops/no-loops
         for (let i = 0; i < 100000000; i++) {
           if (!oldestTransactionTimestamp || oldestTransactionTimestamp < new Date(Date.now())) {

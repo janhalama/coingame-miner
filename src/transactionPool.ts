@@ -3,6 +3,7 @@ import { Transaction } from './models/Transaction';
 export class TransactionPool {
   private pool: { [key: string]: Transaction; } = {};
   public addAll(transactions: Transaction[]): void {
+    this.pool = {};
     transactions.forEach((transaction) => {
       this.add(transaction);
     })
