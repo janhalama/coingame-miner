@@ -1,7 +1,6 @@
 import { Output } from './output';
 import { Config } from '.';
 import { ApiClient } from './apiClient';
-import crypto from 'crypto';
 import { Transaction } from './models/Transaction';
 import { serializeHashToYaml } from './serialization/serializeHashToYaml';
 import { Hash } from './models/Hash';
@@ -9,6 +8,7 @@ import { serializeBlockToYaml } from './serialization/serializeBlockToYaml';
 import { TransactionPool } from './transactionPool';
 import { AmpqConsumer } from './ampqConsumer';
 import { Block } from './models/Block';
+import { computeDigest } from './computeDigest';
 
 export class Miner {
   private output: Output;
@@ -60,7 +60,7 @@ export class Miner {
           }
           const newBlock = this.createNewBlock(timeStamp, requiredDifficulty, i, state.Fee, latestTransactions);
           const newBlockYaml = serializeBlockToYaml(newBlock);
-          const newDigestHex = this.computeDigest(currentHashYaml, newBlockYaml);
+          const newDigestHex = computeDigest(currentHashYaml, newBlockYaml);
           const newDigestPrefix = BigInt('0x' + newDigestHex.slice(0, 8));
           const newDigestPrefixBits = newDigestPrefix.toString(2).padStart(32, '0');
           const newDigestDifficulty = newDigestPrefixBits.indexOf('1');
@@ -97,13 +97,5 @@ export class Miner {
       newBlock.Transactions.push(trasaction);
     });
     return newBlock;
-  }
-  private computeDigest(currentHashYaml: string, newBlockYaml: string): string {
-    const hash = crypto.createHash('sha384');
-    hash.update(currentHashYaml, 'utf8');
-    hash.update(newBlockYaml, 'utf8');
-    hash.update(currentHashYaml, 'utf8');
-    const data = hash.update(newBlockYaml, 'utf8');
-    return data.digest('hex');
   }
 }

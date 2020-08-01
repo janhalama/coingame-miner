@@ -1,0 +1,8 @@
+--- !Block
+Timestamp: 2018-09-16T23:32:56.095486Z
+Difficulty: 32
+Nonce: 77726441
+Miner: TeskaLabs
+Transactions:
+  - !Transaction
+    Fee: 1.0
