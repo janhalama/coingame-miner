@@ -1,12 +1,11 @@
-
 import * as ampq from 'amqplib';
 import { ConsumeMessage } from 'amqplib';
-import { Output } from './output';
-import { TransactionPool } from './transactionPool';
-import { deserializeTransactions } from './deserialization/deserializeTransactions';
 import yaml from 'js-yaml';
-import { coinGameSchema } from './schema/CoinGameSchema';
+import { deserializeTransactions } from './deserialization/deserializeTransactions';
 import { Block } from './models/Block';
+import { Output } from './output';
+import { coinGameSchema } from './schema/CoinGameSchema';
+import { TransactionPool } from './transactionPool';
 
 export interface AmpqConsumerConfig {
   amqpUrl: string;
@@ -46,7 +45,7 @@ export class AmpqConsumer {
         case 'transaction.removed':
           transactions = deserializeTransactions(msg.content.toString('utf8'));
           if (transactions[0]?.Id) {
-            this.transactionPool.remove(transactions[0].Id)
+            this.transactionPool.remove(transactions[0].Id);
           }
           break;
         case 'transaction.added':
@@ -55,7 +54,7 @@ export class AmpqConsumer {
           break;
         case 'block.added':
           block = <Block>yaml.load(msg.content.toString('utf8'), {
-            schema: coinGameSchema
+            schema: coinGameSchema,
           });
           this.output.info(`New block added to blockchain by ${block?.Miner} at ${block?.Timestamp}`);
           this.lastBlock = block;
@@ -66,5 +65,4 @@ export class AmpqConsumer {
       }
     }
   }
-
 }

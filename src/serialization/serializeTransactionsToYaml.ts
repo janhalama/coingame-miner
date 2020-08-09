@@ -4,7 +4,8 @@ export function serializeTransactionsToYaml(transactions: Transaction[]): string
   let result = '';
   transactions.map((transaction) => {
     result = result + serializeTransactionToYaml(transaction);
-  })
+  });
+
   return result;
 }
 

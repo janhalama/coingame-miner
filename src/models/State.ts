@@ -1,5 +1,5 @@
 export interface State {
-  Digest: string,
-  Difficulty: number,
-  Fee: number,
+  Digest: string;
+  Difficulty: number;
+  Fee: number;
 }

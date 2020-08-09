@@ -6,5 +6,6 @@ export function computeDigest(currentHashYaml: string, newBlockYaml: string): st
   hash.update(newBlockYaml, 'utf8');
   hash.update(currentHashYaml, 'utf8');
   const data = hash.update(newBlockYaml, 'utf8');
+
   return data.digest('hex');
 }

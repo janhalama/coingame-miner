@@ -1,8 +1,8 @@
+import { AmpqConsumer, AmpqConsumerConfig } from './ampqConsumer';
+import { ApiClient } from './apiClient';
 import { Miner } from './miner';
 import { Output } from './output';
-import { ApiClient } from './apiClient';
 import { TransactionPool } from './transactionPool';
-import { AmpqConsumer, AmpqConsumerConfig } from './ampqConsumer';
 
 export interface Config {
   apiUrl: string;
@@ -17,7 +17,7 @@ const config: Config = {
     queueName: `${minerName}sQueue`,
   },
   minerName: minerName,
-}
+};
 
 const output: Output = new Output();
 const transactionPool = new TransactionPool();
