@@ -20,7 +20,7 @@ yarn start:dev John
 
 ## Configure CoinGame server urls
 
-By default is miner configured to run agains CoinGame server instancedoc on the same box.
+By default is miner configured to run against CoinGame server instanced running on the same box.
 
 You can configure CoinGame miner to different REST API url and AMQP queue endpoint in ./src/index.ts file.
 
