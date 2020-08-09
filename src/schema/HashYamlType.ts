@@ -1,12 +1,12 @@
 import yaml from 'js-yaml';
 import { Hash } from '../models/Hash';
 
-export const HashYamlType = new yaml.Type('!Hash', {
+export const hashYamlType = new yaml.Type('!Hash', {
   kind: 'mapping',
-  construct: function (data) {
-    data = data || {}; // in case of empty node
+  construct: function (data: any) {
+    const safeData = data || {}; // in case of empty node
 
-    return new Hash(data.Digest);
+    return new Hash(safeData.Digest);
   },
   instanceOf: Hash,
 });

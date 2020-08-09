@@ -1,12 +1,17 @@
 import yaml from 'js-yaml';
 import { Transaction } from '../models/Transaction';
 
-export const TransactionYamlType = new yaml.Type('!Transaction', {
+export const transactionYamlType = new yaml.Type('!Transaction', {
   kind: 'mapping',
-  construct: function (data) {
-    data = data || {}; // in case of empty node
+  construct: function (data: any) {
+    const safeData = data || {}; // in case of empty node
 
-    return new Transaction(data.Fee, data.Id ? BigInt(data.Id) : undefined, data.ValidTo, data.Data);
+    return new Transaction(
+      safeData.Fee,
+      safeData.Id ? BigInt(safeData.Id) : undefined,
+      safeData.ValidTo,
+      safeData.Data,
+    );
   },
   instanceOf: Transaction,
 });

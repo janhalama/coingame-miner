@@ -33,7 +33,6 @@ export class Miner {
     try {
       this.output.success(`${this.config.minerName} started mining...`);
       await this.amqpConsumer.connect();
-      // eslint-disable-next-line no-loops/no-loops
       for (let blockAttempt = 0; ; blockAttempt++) {
         this.transactionPool.addAll(await this.apiClient.getTransactionPool());
         const blockChain = await this.apiClient.getBlockChain();
@@ -55,7 +54,6 @@ export class Miner {
             latestTransactions.length + 1
           }`,
         );
-        // eslint-disable-next-line no-loops/no-loops
         for (let i = 0; i < 100000000; i++) {
           if (!oldestTransactionTimestamp || oldestTransactionTimestamp < new Date(Date.now())) {
             break;

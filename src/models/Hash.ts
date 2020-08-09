@@ -1,6 +1,6 @@
 export class Hash {
-  constructor(Digest: string) {
-    this.Digest = Digest;
-  }
   public Digest: string;
+  constructor(digest: string) {
+    this.Digest = digest;
+  }
 }

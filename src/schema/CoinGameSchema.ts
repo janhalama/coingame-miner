@@ -1,6 +1,6 @@
 import yaml from 'js-yaml';
-import { BlockYamlType } from './BlockYamlType';
-import { HashYamlType } from './HashYamlType';
-import { TransactionYamlType } from './TransactionYamlType';
+import { blockYamlType } from './BlockYamlType';
+import { hashYamlType } from './HashYamlType';
+import { transactionYamlType } from './TransactionYamlType';
 
-export const coinGameSchema = yaml.Schema.create([BlockYamlType, HashYamlType, TransactionYamlType]);
+export const coinGameSchema = yaml.Schema.create([blockYamlType, hashYamlType, transactionYamlType]);

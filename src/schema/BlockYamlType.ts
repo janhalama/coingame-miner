@@ -1,12 +1,12 @@
 import yaml from 'js-yaml';
 import { Block } from '../models/Block';
 
-export const BlockYamlType = new yaml.Type('!Block', {
+export const blockYamlType = new yaml.Type('!Block', {
   kind: 'mapping',
-  construct: function (data) {
-    data = data || {}; // in case of empty node
+  construct: function (data: any) {
+    const safeData = data || {}; // in case of empty node
 
-    return new Block(data.Timestamp, data.Difficulty, data.Nonce, data.Miner, data.Transactions);
+    return new Block(safeData.Timestamp, safeData.Difficulty, safeData.Nonce, safeData.Miner, safeData.Transactions);
   },
   instanceOf: Block,
 });

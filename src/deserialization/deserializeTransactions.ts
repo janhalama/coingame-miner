@@ -6,7 +6,6 @@ export function deserializeTransactions(payload: string): Transaction[] {
   const regexp = new RegExp(/--- !Transaction\nData: !!binary \|\n {2}(.*)\nFee: (.*)\nId: (.*)\nValidTo: (.*)/, 'mg');
   const matches = payload.matchAll(regexp);
 
-  // eslint-disable-next-line no-loops/no-loops
   for (const match of matches) {
     if (!match[4]) {
       continue;

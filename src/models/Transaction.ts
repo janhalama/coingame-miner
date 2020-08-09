@@ -1,12 +1,12 @@
 export class Transaction {
-  constructor(Fee: number, Id?: BigInt, ValidTo?: Date, Data?: Buffer) {
-    this.Fee = Fee;
-    this.Id = Id;
-    this.ValidTo = ValidTo;
-    this.Data = Data;
-  }
   public Fee: number;
   public Id?: BigInt;
   public ValidTo?: Date;
   public Data?: Buffer;
+  constructor(fee: number, id?: BigInt, validTo?: Date, data?: Buffer) {
+    this.Fee = fee;
+    this.Id = id;
+    this.ValidTo = validTo;
+    this.Data = data;
+  }
 }

@@ -1,16 +1,16 @@
 import { Transaction } from './Transaction';
 
 export class Block {
-  constructor(Timestamp: Date, Difficulty: number, Nonce: number, Miner: string, Transactions: Transaction[]) {
-    this.Timestamp = Timestamp;
-    this.Difficulty = Difficulty;
-    this.Nonce = Nonce;
-    this.Miner = Miner;
-    this.Transactions = Transactions;
-  }
   public Timestamp: Date;
   public Difficulty: number;
   public Nonce: number;
   public Miner: string;
   public Transactions: Transaction[];
+  constructor(timestamp: Date, difficulty: number, nonce: number, miner: string, transactions: Transaction[]) {
+    this.Timestamp = timestamp;
+    this.Difficulty = difficulty;
+    this.Nonce = nonce;
+    this.Miner = miner;
+    this.Transactions = transactions;
+  }
 }
