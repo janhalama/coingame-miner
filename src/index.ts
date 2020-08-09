@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { AmpqConsumer, AmpqConsumerConfig } from './ampqConsumer';
 import { ApiClient } from './apiClient';
 import { Miner } from './miner';
@@ -14,7 +15,7 @@ const config: Config = {
   apiUrl: 'http://localhost/api',
   ampqConsumerConfig: {
     amqpUrl: 'amqp://coingameminer:guest@localhost:5672',
-    queueName: `${minerName}sQueue`,
+    queueName: `${minerName}sQueue-${uuidv4()}`,
   },
   minerName: minerName,
 };
