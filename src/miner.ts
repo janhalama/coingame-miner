@@ -49,9 +49,9 @@ export class Miner {
         const oldestTransactionTimestamp = latestTransactions[latestTransactions.length - 1].ValidTo;
         this.output.info(
           `Mining block attempt #${
-          blockAttempt + 1
+            blockAttempt + 1
           } oldest transaction timestamp${oldestTransactionTimestamp?.toISOString()} new block timeStamp ${timeStamp.toISOString()} transactions count ${
-          latestTransactions.length + 1
+            latestTransactions.length + 1
           }`,
         );
         for (
