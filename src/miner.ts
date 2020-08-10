@@ -54,10 +54,11 @@ export class Miner {
             latestTransactions.length + 1
           }`,
         );
-        for (let i = 0; i < 100000000; i++) {
-          if (!oldestTransactionTimestamp || oldestTransactionTimestamp < new Date(Date.now())) {
-            break;
-          }
+        for (
+          let hashAttempt = 0;
+          oldestTransactionTimestamp && oldestTransactionTimestamp > new Date(Date.now());
+          hashAttempt++
+        ) {
           const lastReceivedBlock = this.amqpConsumer.getLastBlock();
           const lastBlockChainBlock = <Block>blockChain[blockChain.length - 2];
           if (
@@ -67,14 +68,27 @@ export class Miner {
             this.output.info('BlockChain change detected', lastReceivedBlock, lastBlockChainBlock);
             break;
           }
-          const newBlock = this.createNewBlock(timeStamp, requiredDifficulty, i, state.Fee, latestTransactions);
+          const newBlock = this.createNewBlock(
+            timeStamp,
+            requiredDifficulty,
+            hashAttempt,
+            state.Fee,
+            latestTransactions,
+          );
           const newBlockYaml = serializeBlockToYaml(newBlock);
           const newDigestHex = computeDigest(currentHashYaml, newBlockYaml);
           const newDigestPrefix = BigInt(`0x${newDigestHex.slice(0, 8)}`);
           const newDigestPrefixBits = newDigestPrefix.toString(2).padStart(32, '0');
           const newDigestDifficulty = newDigestPrefixBits.indexOf('1');
           if (newDigestDifficulty > 15) {
-            this.output.info('Hash', requiredDifficulty, newDigestDifficulty, newDigestPrefixBits, newDigestHex, i);
+            this.output.info(
+              'Hash',
+              requiredDifficulty,
+              newDigestDifficulty,
+              newDigestPrefixBits,
+              newDigestHex,
+              hashAttempt,
+            );
           }
           if (newDigestDifficulty >= requiredDifficulty) {
             const uploadNewBlockYaml = currentHashYaml + newBlockYaml;
