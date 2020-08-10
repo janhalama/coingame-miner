@@ -42,16 +42,16 @@ export class Miner {
         const currentHashYaml = serializeHashToYaml(<Hash>blockChain[blockChain.length - 1]);
         const requiredDifficulty = state.Difficulty;
         if (latestTransactions.length < 5) {
-          this.output.error('Not enough transaction in pool!', latestTransactions.length);
+          this.output.error('Not enough transactions in pool!', latestTransactions.length);
           await new Promise((resolve) => setTimeout(resolve, 1000));
           continue;
         }
         const oldestTransactionTimestamp = latestTransactions[latestTransactions.length - 1].ValidTo;
         this.output.info(
           `Mining block attempt #${
-            blockAttempt + 1
+          blockAttempt + 1
           } oldest transaction timestamp${oldestTransactionTimestamp?.toISOString()} new block timeStamp ${timeStamp.toISOString()} transactions count ${
-            latestTransactions.length + 1
+          latestTransactions.length + 1
           }`,
         );
         for (
